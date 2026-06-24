@@ -1,1 +1,1 @@
-const k = "AKIAIOSFODNN7EXAMPLE";
+const k = process.env.AWS_ACCESS_KEY_ID;
