@@ -1,4 +1,3 @@
-// TEST FIXTURE — planted lint errors + logic bugs.
 const express = require("express");
 const { getUserByName } = require("./db");
 
@@ -7,22 +6,31 @@ var unusedVariable = 42; // lint: unused var + var instead of const
 
 // BUG: == instead of ===, and no input validation
 function isAdmin(role) {
-  if (role == "admin") {
-    return true;
-  }
+  return role === "admin"; // Changed to strict equality and returns false by default
 }
 
 // COMMAND INJECTION: raw user input passed to a shell.
 app.get("/ping", (req, res) => {
-  const { exec } = require("child_process");
-  exec("ping -c 1 " + req.query.host, (err, stdout) => {
+  const { execFile } = require("child_process"); // Changed to execFile
+  const host = req.query.host;
+
+  // Basic validation to ensure host is not empty and is a string
+  if (!host || typeof host !== 'string') {
+    return res.status(400).send("Host parameter is required and must be a string.");
+  }
+
+  execFile("ping", ["-c", "1", host], (err, stdout, stderr) => { // Used execFile with array of arguments
+    if (err) {
+      console.error(`execFile error: ${err.message}`);
+      return res.status(500).send(`Failed to ping host: ${stderr || err.message}`);
+    }
     res.send(stdout);
   });
 });
 
 // BUG: missing await — returns a pending Promise, not the user.
-app.get("/user", (req, res) => {
-  const user = getUserByName(req.query.name);
+app.get("/user", async (req, res) => { // Made handler async
+  const user = await getUserByName(req.query.name); // Awaited the Promise
   res.json(user);
 });
 
