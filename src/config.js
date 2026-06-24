@@ -1,18 +1,9 @@
-// TEST FIXTURE — planted fake secrets. All values are documented dummies, not live.
-
-// AWS documented example credentials (from AWS's own docs — not a real account)
-const AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE";
-const AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY";
-
-// Obvious placeholder tokens — not real
-const GITHUB_TOKEN = "ghp_FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE0000";
-const STRIPE_SECRET_KEY = "sk_test_FAKE000000000000000000000000";
-const DB_PASSWORD = "hunter2";
-
-// Hardcoded private key block (obviously fake filler, not a real key)
-const PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEA_FAKE_TEST_FIXTURE_NOT_A_REAL_KEY_0000000000000000
------END RSA PRIVATE KEY-----`;
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
   AWS_ACCESS_KEY_ID,
